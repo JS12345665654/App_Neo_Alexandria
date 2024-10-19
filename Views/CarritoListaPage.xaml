@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppFakeStore.Views.CarritoListaPage"
+             xmlns:vm="clr-namespace:AppFakeStore.ViewModels"
+             xmlns:model="clr-namespace:AppFakeStore.Models"
+             x:DataType="vm:CarritoListaViewModel"
+             Title="{Binding Title}"
+             Background="#00643b">
+    <Grid ColumnDefinitions="*,*" ColumnSpacing="5" RowDefinitions="*,Auto" RowSpacing="0">
+
+        <RefreshView Grid.ColumnSpan="2" Command="{Binding ObtenerTodosCarritosCommand}" IsRefreshing="{Binding IsRefreshing}">
+
+            <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Carrito}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding CarritoSeleccionado}"
+                        SelectionChangedCommand="{Binding GoToDetalleCarritoCommand}">
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="100">
+                        <Image Source="not_found.jpg" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Carrito">
+                        <Grid 
+                            ColumnDefinitions=".3*,.7*"
+                            Margin="12" 
+                            ColumnSpacing="15" 
+                            RowSpacing="15" 
+                            RowDefinitions="Auto,*">
+
+                            <Label Grid.Column="1"
+                               Text="{Binding IdCarrito}"
+                               VerticalOptions="Center"
+                               TextColor="Blue"/>
+
+                            <Label Grid.Column="1" 
+                               Text="{Binding IdUsuario}"
+                               VerticalOptions="Center"
+                               TextColor="Blue"/>
+
+                            <Label Grid.Column="1"
+                               Text="{Binding IdProductos}"
+                               VerticalOptions="Center"
+                               TextColor="Blue"/>
+
+                            <Label Grid.Column="1" 
+                               Text="{Binding PrecioTotalCarrito}"
+                               VerticalOptions="Center"
+                               TextColor="Blue"/>
+
+                            <Label Grid.Column="1"
+                               Text="{Binding Descripcion}"
+                               VerticalOptions="Center"
+                               TextColor="Blue"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <HorizontalStackLayout Padding="10" Spacing="20" HorizontalOptions="Center" VerticalOptions="End">
+            <Button Text="Agregar" TextColor="Black" BackgroundColor="Green" Command="{Binding GoToCrearCarritoCommand}" />
+            <Button Text="Modificar" TextColor="Black" BackgroundColor="Yellow" Command="{Binding GoToModificarCarritoCommand}" />
+            <Button Text="Eliminar" TextColor="White" BackgroundColor="Red" Command="{Binding GoToEliminarCarritoCommand}" />
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppFakeStore.Views.ProductoListaPage"
+             xmlns:vm="clr-namespace:AppFakeStore.ViewModels"
+             xmlns:model="clr-namespace:AppFakeStore.Models"
+             x:DataType="vm:ProductoListaViewModel"
+             Title="{Binding Title}"
+             Background="#00643b">
+    <Grid ColumnDefinitions="*,*" ColumnSpacing="5" RowDefinitions="*,Auto" RowSpacing="0">
+        <RefreshView Grid.ColumnSpan="2" Command="{Binding ObtenerTodosProductosCommand}" IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Producto}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding ProductoSeleccionado}"
+                        SelectionChangedCommand="{Binding GoToDetalleProductosCommand}">
+                <CollectionView.EmptyView>
+                    <StackLayout Padding="100">
+                        <Image Source="not_found.jpg" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"/>
+                    </StackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Producto">
+                        <Grid 
+                            ColumnDefinitions=".3*,.7*"
+                            Margin="20" 
+                            ColumnSpacing="15" 
+                            RowSpacing="15" 
+                            RowDefinitions="Auto,*">
+
+                            <Label Grid.Column="1" 
+                               Text="{Binding Precio}"
+                               VerticalOptions="Center"
+                               TextColor="Blue"/>
+
+                            <Label Grid.Column="1" 
+                               Text="{Binding Stock}"
+                               VerticalOptions="Center"
+                               TextColor="Blue"/>
+
+                            <Label Grid.Column="1" 
+                               Text="{Binding Nombre}"
+                               VerticalOptions="Center"
+                               TextColor="Blue"/>
+
+                            <Image Grid.Column="0"
+                               Source="{Binding Imagen}"
+                               WidthRequest="80"
+                               HeightRequest="80"
+                               Aspect="AspectFit"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+        <Grid Padding="0,15,0,0">
+            <HorizontalStackLayout Padding="10" Spacing="20" HorizontalOptions="Center" VerticalOptions="End">
+                <Button Text="Agregar" TextColor="Black" BackgroundColor="Green" Command="{Binding GoToCrearProductoCommand}" />
+                <Button Text="Modificar" TextColor="Black" BackgroundColor="Yellow" Command="{Binding GoToModificarProductoCommand}"/>
+                <Button Text="Eliminar" TextColor="White" BackgroundColor="Red" Command="{Binding GoToEliminarProductoCommand}" />
+            </HorizontalStackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>
